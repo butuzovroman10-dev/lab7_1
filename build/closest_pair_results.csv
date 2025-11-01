@@ -1,0 +1,11 @@
+Algorithm,PointsCount,Time(sec)
+BruteForce,10,0.000002
+DivideAndConquer,10,0.000018
+BruteForce,50,0.000015
+DivideAndConquer,50,0.000075
+BruteForce,100,0.000060
+DivideAndConquer,100,0.000162
+BruteForce,500,0.001297
+DivideAndConquer,500,0.001003
+BruteForce,1000,0.015317
+DivideAndConquer,1000,0.002397

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ алгоритмов - Вычислительный эксперимент</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        .chart-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 8px;
+            height: 400px;
+        }
+        canvas {
+            max-height: 400px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .data-section {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Анализ алгоритмов - Вычислительный эксперимент</h1>
+        
+        <h2>1. Алгоритмы сортировки</h2>
+        <div class="chart-container">
+            <canvas id="sortingChart"></canvas>
+        </div>
+
+        <h2>2. Алгоритмы поиска</h2>
+        <div class="chart-container">
+            <canvas id="searchChart"></canvas>
+        </div>
+
+        <h2>3. Поиск ближайших точек</h2>
+        <div class="chart-container">
+            <canvas id="closestPairChart"></canvas>
+        </div>
+
+        <div class="data-section">
+            <h2>Таблицы результатов</h2>
+            
+            <h3>Сортировка (размер 1000)</h3>
+            <table id="sortingTable">
+                <thead>
+                    <tr>
+                        <th>Алгоритм</th>
+                        <th>Случай</th>
+                        <th>Время (сек)</th>
+                    </tr>
+                </thead>
+                <tbody><tr><td>SelectionSort</td><td>Лучший</td><td>0.002182</td></tr><tr><td>BubbleSort</td><td>Лучший</td><td>0.000004</td></tr><tr><td>MergeSort</td><td>Лучший</td><td>0.000324</td></tr><tr><td>SelectionSort</td><td>Средний</td><td>0.005308</td></tr><tr><td>BubbleSort</td><td>Средний</td><td>0.010521</td></tr><tr><td>MergeSort</td><td>Средний</td><td>0.000467</td></tr><tr><td>SelectionSort</td><td>Худший</td><td>0.002302</td></tr><tr><td>BubbleSort</td><td>Худший</td><td>0.015908</td></tr><tr><td>MergeSort</td><td>Худший</td><td>0.000294</td></tr></tbody>
+            </table>
+
+            <h3>Поиск</h3>
+            <table id="searchTable">
+                <thead>
+                    <tr>
+                        <th>Алгоритм</th>
+                        <th>Размер</th>
+                        <th>Время (сек)</th>
+                    </tr>
+                </thead>
+                <tbody><tr><td>SequentialSearch</td><td>1000</td><td>0.000004</td></tr><tr><td>BinarySearch</td><td>1000</td><td>0.000000</td></tr><tr><td>SequentialSearch</td><td>10000</td><td>0.000039</td></tr><tr><td>BinarySearch</td><td>10000</td><td>0.000000</td></tr><tr><td>SequentialSearch</td><td>100000</td><td>0.000418</td></tr><tr><td>BinarySearch</td><td>100000</td><td>0.000001</td></tr><tr><td>SequentialSearch</td><td>1000000</td><td>0.004616</td></tr><tr><td>BinarySearch</td><td>1000000</td><td>0.000002</td></tr></tbody>
+            </table>
+
+            <h3>Ближайшие точки</h3>
+            <table id="closestPairTable">
+                <thead>
+                    <tr>
+                        <th>Алгоритм</th>
+                        <th>Кол-во точек</th>
+                        <th>Время (сек)</th>
+                    </tr>
+                </thead>
+                <tbody><tr><td>BruteForce</td><td>10</td><td>0.000002</td></tr><tr><td>DivideAndConquer</td><td>10</td><td>0.000018</td></tr><tr><td>BruteForce</td><td>50</td><td>0.000015</td></tr><tr><td>DivideAndConquer</td><td>50</td><td>0.000075</td></tr><tr><td>BruteForce</td><td>100</td><td>0.000060</td></tr><tr><td>DivideAndConquer</td><td>100</td><td>0.000162</td></tr><tr><td>BruteForce</td><td>500</td><td>0.001297</td></tr><tr><td>DivideAndConquer</td><td>500</td><td>0.001003</td></tr><tr><td>BruteForce</td><td>1000</td><td>0.015317</td></tr><tr><td>DivideAndConquer</td><td>1000</td><td>0.002397</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Данные для графиков
+        const sortingData = {
+            labels: [100, 500, 1000, 2000],
+            datasets: [{
+                    label: 'Выбором (лучший)',
+                    data: [0.000024, 0.000610, 0.002182, 0.012197],
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)'
+                },{
+                    label: 'Слиянием (средний)',
+                    data: [0.000033, 0.000189, 0.000467, 0.000832],
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)'
+                }]};
+
+        const searchData = {
+            labels: [1000, 10000, 100000, 1000000],
+            datasets: [{
+                    label: 'Последовательный поиск',
+                    data: [0.000004, 0.000039, 0.000418, 0.004616],
+                    borderColor: 'rgb(255, 159, 64)',
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)'
+                },{
+                    label: 'Бинарный поиск',
+                    data: [0.000000, 0.000000, 0.000001, 0.000002],
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)'
+                }]};
+
+        const closestPairData = {
+            labels: [10, 50, 100, 500, 1000],
+            datasets: [{
+                    label: 'Грубая сила',
+                    data: [0.000002, 0.000015, 0.000060, 0.001297, 0.015317],
+                    borderColor: 'rgb(153, 102, 255)',
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)'
+                },{
+                    label: 'Декомпозиция',
+                    data: [0.000018, 0.000075, 0.000162, 0.001003, 0.002397],
+                    borderColor: 'rgb(255, 205, 86)',
+                    backgroundColor: 'rgba(255, 205, 86, 0.2)'
+                }]};
+
+        // Создание графиков
+        window.onload = function() {
+            // График сортировки
+            const sortingCtx = document.getElementById('sortingChart').getContext('2d');
+            new Chart(sortingCtx, {
+                type: 'line',
+                data: sortingData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Время выполнения алгоритмов сортировки'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'logarithmic',
+                            title: {
+                                display: true,
+                                text: 'Время (сек, логарифмическая шкала)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Размер массива'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // График поиска
+            const searchCtx = document.getElementById('searchChart').getContext('2d');
+            new Chart(searchCtx, {
+                type: 'line',
+                data: searchData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Время выполнения алгоритмов поиска'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'logarithmic',
+                            title: {
+                                display: true,
+                                text: 'Время (сек, логарифмическая шкала)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Размер массива'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // График ближайших точек
+            const closestCtx = document.getElementById('closestPairChart').getContext('2d');
+            new Chart(closestCtx, {
+                type: 'line',
+                data: closestPairData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Время поиска ближайших точек'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'logarithmic',
+                            title: {
+                                display: true,
+                                text: 'Время (сек, логарифмическая шкала)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Количество точек'
+                            }
+                        }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>

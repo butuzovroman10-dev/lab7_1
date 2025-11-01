@@ -1,0 +1,9 @@
+Algorithm,Size,Time(sec)
+SequentialSearch,1000,0.000004
+BinarySearch,1000,0.000000
+SequentialSearch,10000,0.000039
+BinarySearch,10000,0.000000
+SequentialSearch,100000,0.000418
+BinarySearch,100000,0.000001
+SequentialSearch,1000000,0.004616
+BinarySearch,1000000,0.000002
