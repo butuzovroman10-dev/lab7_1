@@ -1,5 +1,4 @@
-markdown
-# Анализ алгоритмов - Вычислительный эксперимент
+# Алгоритмы анализа - Вычислительный эксперимент
 
 ![C++](https://img.shields.io/badge/C++-17-blue.svg)
 ![CMake](https://img.shields.io/badge/CMake-3.10+-green.svg)
@@ -194,5 +193,3 @@ auto result = ClosestPair::divideAndConquer(points);
 Email: your-email@example.com
 
 GitHub: your-username
-
-Примечание: Для работы HTML-отчета требуется подключение к интернету (загрузка Chart.js из CDN).
